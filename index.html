@@ -47,22 +47,24 @@
                 data-testid="bookFormYearInput"
               />
             </div>
-            <div>
-              <label for="bookFormIsComplete">Selesai dibaca</label>
-              <input
-                id="bookFormIsComplete"
-                type="checkbox"
-                data-testid="bookFormIsCompleteCheckbox"
-              />
+            <div class="checklist">
+              <div>
+                <label for="bookFormIsComplete">Selesai dibaca</label>
+                <input
+                  id="bookFormIsComplete"
+                  type="checkbox"
+                  data-testid="bookFormIsCompleteCheckbox"
+                />
+              </div>
+              <button
+                id="bookFormSubmit"
+                type="submit"
+                data-testid="bookFormSubmitButton"
+              >
+                Masukkan Buku ke rak <br />
+                <span>Belum selesai dibaca</span>
+              </button>
             </div>
-            <button
-              id="bookFormSubmit"
-              type="submit"
-              data-testid="bookFormSubmitButton"
-            >
-              Masukkan Buku ke rak <br />
-              <span>Belum selesai dibaca</span>
-            </button>
           </form>
         </section>
 
