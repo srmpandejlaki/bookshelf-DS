@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // function untuk membuat id unik
   function generateID() {
-    return +new Date();
+    return +new Date().getTime();
   }
 
   // function untuk membuat objek buku
@@ -43,4 +43,44 @@ document.addEventListener("DOMContentLoaded", function () {
   document.addEventListener(RENDER_EVENT, function () {
     console.log(shelf);
   });
+
+  // function simpan data ke local storage - WAJIB 1#
+  function saveData() {
+    if (isstorageExist()) {
+      const parsed = JSON.stringify(shelf);
+      localStorage.setItem(STORAGE_KEY, parsed);
+      document.dispatchEvent(new Event(SAVED_EVENT));
+    }
+  }
+
+  const SAVED_EVENT = "shelf-tersimpan";
+  const STORAGE_KEY = "BOOK-SHELF_APP";
+
+  function isstorageExist() {
+    if (typeof Storage === undefined) {
+      alert("Browser tidak mendukung local storage");
+      return false;
+    }
+    return true;
+  }
+
+  document.addEventListener(SAVED_EVENT, function () {
+    console.log(localStorage.getItem(STORAGE_KEY));
+  });
+
+  function loadDataFromStorage() {
+    const serializedData = localStorage.getItem(STORAGE_KEY);
+    let data = JSON.parse(serializedData);
+
+    if (data !== null) {
+      for (const shelfs of data) {
+        shelf.push(shelfs);
+      }
+    }
+    document.dispatchEvent(new Event(RENDER_EVENT));
+  }
+
+  if (isstorageExist()) {
+    loadDataFromStorage();
+  }
 });
