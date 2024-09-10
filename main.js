@@ -103,5 +103,48 @@ document.addEventListener("DOMContentLoaded", function () {
     container.classList.add("book-list");
     container.append(textContainer);
     container.setAttribute("id", `list-${bookObject.id}`);
+
+    // button-button
+    if (bookObject.isCompleted) {
+      // undo button
+      const undoButton = document.createElement("button");
+      undoButton.classList.add("undo-button");
+
+      undoButton.addEventListener("click", function () {
+        undoBook(bookObject.id);
+      });
+
+      // hapus button
+      const deleteButton = document.createElement("button");
+      deleteButton.classList.add("delete-button");
+
+      deleteButton.addEventListener("click", function () {
+        deleteBook(bookObject.id);
+      });
+
+      container.append(undoButton, deleteButton);
+
+      // edit button
+    } else {
+      // 'belum selesai dibaca' -> 'selesai dibaca'
+      const doneButton = document.createElement("button");
+      doneButton.classList.add("done-button");
+
+      doneButton.addEventListener("click", function () {
+        doneBook(bookObject.id);
+      });
+      container.append(doneButton);
+
+      // function doneBook
+      function doneBook(idBook) {
+        const bookTarget = findBook(idBook);
+
+        if (bookTarget == null) return;
+
+        bookTarget.isCompleted = true;
+        document.dispatchEvent(new Event(RENDER_EVENT));
+        saveData();
+      }
+    }
   }
 });
