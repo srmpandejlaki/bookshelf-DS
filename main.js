@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // simpan data buku yang diinput
   const submitBook = document.getElementById("bookForm");
-  submitBook.addEventListener("submit", function (event) {
+  submitBook.addEventListener("bookFormSubmit", function (event) {
     event.preventDefault();
     addBook();
   });
@@ -48,27 +48,30 @@ document.addEventListener("DOMContentLoaded", function () {
   function makeBook(bookObject) {
     const textTitle = document.createElement("h3");
     textTitle.innerHTML = bookObject.title;
+    textTitle.setAttribute("data-testid", "bookItemTitle");
 
     const textAuthor = document.createElement("p");
-    textAuthor.innerHTML = `Penulis: ${bookObject.author}`;
+    textAuthor.innerHTML = bookObject.author;
+    textAuthor.setAttribute("data-testid", "bookItemAuthor");
 
+    textYear.innerHTML = bookObject.year;
     const textYear = document.createElement("p");
-    textYear.innerHTML = `Tahun: ${bookObject.year}`;
+    textYear.setAttribute("data-testid", "bookItemYear");
 
     const textContainer = document.createElement("div");
-    textContainer.classList.add("book");
     textContainer.append(textTitle, textAuthor, textYear);
+    textContainer.setAttribute("data-testid", "bookItem");
 
     const container = document.createElement("div");
-    container.classList.add("book-list");
+    textContainer.setAttribute("data-testid", "incompleteBookList");
     container.append(textContainer);
-    container.setAttribute("id", `list-${bookObject.id}`);
+    container.setAttribute("databook-id", `list-${bookObject.id}`);
 
     // button-button
     if (bookObject.isCompleted) {
       // undo button
       const undoButton = document.createElement("button");
-      undoButton.classList.add("undo-button");
+      undoButton.classList.add("bookItemIsCompleteButton");
 
       undoButton.addEventListener("click", function () {
         undoBook(bookObject.id);
@@ -76,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // hapus button
       const deleteButton = document.createElement("button");
-      deleteButton.classList.add("delete-button");
+      deleteButton.classList.add("bookItemDeleteButton");
 
       deleteButton.addEventListener("click", function () {
         deleteBook(bookObject.id);
@@ -110,14 +113,35 @@ document.addEventListener("DOMContentLoaded", function () {
     // function temukan book
     function findBook(idBook) {
       for (const book of shelf) {
-        if (shelf.id === idBook) {
+        if (book.id === idBook) {
           return book;
         }
       }
       return null;
     }
 
-    //
+    // function hapus book dari list selesai
+    function deleteBook(idBook) {
+      const bookTarget = findBookIndex(idBook);
+
+      if (bookTarget === -1) return;
+
+      shelf.splice(bookTarget, 1);
+      document.dispatchEvent(new Event(RENDER_EVENT));
+      saveData();
+    }
+
+    // implementasi findBookIndex()
+    function findBookIndex(idBook) {
+      for (const index in shelf) {
+        if (shelf[index].id === idBook) {
+          return index;
+        }
+      }
+      return -1;
+    }
+
+    return container;
   }
 
   // function simpan data ke local storage - WAJIB 1#
