@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
     addBook();
   });
 
-  // function untuk tambah buku
+  // function untuk tambah buku - WAJIB #2
   function addBook() {
     const title = document.getElementById("bookFormTitle").value;
     const author = document.getElementById("bookFormAuthor").value;
@@ -82,5 +82,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (isstorageExist()) {
     loadDataFromStorage();
+  }
+
+  //function membuat book-list
+  function makeBook(bookObject) {
+    const textTitle = document.createElement("h3");
+    textTitle.innerHTML = bookObject.title;
+
+    const textAuthor = document.createElement("p");
+    textAuthor.innerHTML = `Penulis: ${bookObject.author}`;
+
+    const textYear = document.createElement("p");
+    textYear.innerHTML = `Tahun: ${bookObject.year}`;
+
+    const textContainer = document.createElement("div");
+    textContainer.classList.add("book");
+    textContainer.append(textTitle, textAuthor, textYear);
+
+    const container = document.createElement("div");
+    container.classList.add("book-list");
+    container.append(textContainer);
+    container.setAttribute("id", `list-${bookObject.id}`);
   }
 });
