@@ -146,5 +146,15 @@ document.addEventListener("DOMContentLoaded", function () {
         saveData();
       }
     }
+
+    // function temukan book
+    function findBook(idBook) {
+      for (const book of shelf) {
+        if (shelf.id === idBook) {
+          return book;
+        }
+      }
+      return null;
+    }
   }
 });
