@@ -47,9 +47,9 @@ function generateBookObject(id, title, author, year, isCompleted) {
 }
 
 // function untuk menampilkan data buku
-document.addEventListener(RENDER_EVENT, function () {
-  console.log(shelf);
-});
+// document.addEventListener(RENDER_EVENT, function () {
+//   console.log(shelf);
+// });
 
 //function membuat book-list
 function makeBook(bookObject) {
@@ -191,9 +191,42 @@ function findBookIndex(idBook) {
   return -1;
 }
 
+// function search book
+const searchBar = document.getElementById("searchBook");
+searchBar.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const inputSearch = event.target.elements.searchBookTitle.value.toLowerCase();
+  const shelfFilter = shelf.filter((book) =>
+    book.title.toLowerCase().includes(inputSearch)
+  );
+
+  if (shelfFilter.length) {
+    search(shelfFilter);
+  } else {
+    document.dispatchEvent(new Event(RENDER_EVENT));
+  }
+  event.target.reset();
+});
+function search(shelfFilter) {
+  const unreadBook = document.getElementById("incompleteBookList");
+  unreadBook.innerHTML = "";
+
+  const readBook = document.getElementById("completeBookList");
+  readBook.innerHTML = "";
+
+  for (const bookItem of shelfFilter) {
+    const bookElement = makeBook(bookItem);
+    if (!bookItem.isCompleted) {
+      unreadBook.append(bookElement);
+    } else {
+      readBook.append(bookElement);
+    }
+  }
+}
+
 // function simpan data ke local storage - WAJIB 1#
 document.addEventListener(RENDER_EVENT, function () {
-  // console.log(shelf);
   const unreadBook = document.getElementById("incompleteBookList");
   unreadBook.innerHTML = "";
 
@@ -243,8 +276,4 @@ function loadDataFromStorage() {
     }
   }
   document.dispatchEvent(new Event(RENDER_EVENT));
-}
-
-if (isstorageExist()) {
-  loadDataFromStorage();
 }
