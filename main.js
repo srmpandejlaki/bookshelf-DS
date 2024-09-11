@@ -29,7 +29,7 @@ function addBook() {
     isCompleted
   );
   shelf.push(bookObject);
-  console.log("hello");
+
   // render data
   document.dispatchEvent(new Event(RENDER_EVENT));
   document.getElementById("bookForm").reset();
@@ -45,11 +45,6 @@ function generateID() {
 function generateBookObject(id, title, author, year, isCompleted) {
   return { id, title, author, year, isCompleted };
 }
-
-// function untuk menampilkan data buku
-// document.addEventListener(RENDER_EVENT, function () {
-//   console.log(shelf);
-// });
 
 //function membuat book-list
 function makeBook(bookObject) {
@@ -75,7 +70,7 @@ function makeBook(bookObject) {
   container.setAttribute("data-bookid", `${bookObject.id}`);
   container.setAttribute("data-testid", "bookItem");
 
-  // hapus button
+  // hapus button - KRITERIA WAJIB #5
   const deleteButton = document.createElement("button");
   deleteButton.innerText = "delete";
   deleteButton.setAttribute("data-testid", "bookItemDeleteButton");
@@ -93,7 +88,7 @@ function makeBook(bookObject) {
     editBook(bookObject.id);
   });
 
-  // button-button
+  // pindah rak 'belum selesai' <-> 'sudah selesai' - KRITERIA WAJIB #4
   if (bookObject.isCompleted) {
     // undo button
     const undoButton = document.createElement("button");
@@ -161,7 +156,7 @@ function undoBook(idBook) {
   saveData();
 }
 
-// function edit
+// function edit - KRITERIA OPSIONAL #2
 function editBook(idBook) {
   const bookTarget = findBookIndex(idBook);
 
@@ -191,7 +186,7 @@ function findBookIndex(idBook) {
   return -1;
 }
 
-// function search book
+// function search book - KRITERIA OPSIONAL #1
 const searchBar = document.getElementById("searchBook");
 searchBar.addEventListener("submit", function (event) {
   event.preventDefault();
@@ -225,8 +220,9 @@ function search(shelfFilter) {
   }
 }
 
-// function simpan data ke local storage - WAJIB 1#
+// function simpan data ke local storage - KRITERIA WAJIB 1#
 document.addEventListener(RENDER_EVENT, function () {
+  // 2 rak buku - KRITERIA WAJIB #3
   const unreadBook = document.getElementById("incompleteBookList");
   unreadBook.innerHTML = "";
 
