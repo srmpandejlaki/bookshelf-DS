@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // function untuk membuat id unik
   function generateID() {
-    return +new Date().getTime();
+    return +new Date();
   }
 
   // function untuk membuat objek buku
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (bookObject.isCompleted) {
       // undo button
       const undoButton = document.createElement("button");
-      undoButton.classList.add("bookItemIsCompleteButton");
+      undoButton.setAttribute("data-testid", "bookItemIsCompleteButton");
 
       undoButton.addEventListener("click", function () {
         undoBook(bookObject.id);
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // hapus button
       const deleteButton = document.createElement("button");
-      deleteButton.classList.add("bookItemDeleteButton");
+      deleteButton.setAttribute("data-testid", "bookItemDeleteButton");
 
       deleteButton.addEventListener("click", function () {
         deleteBook(bookObject.id);
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       // 'belum selesai dibaca' -> 'selesai dibaca'
       const doneButton = document.createElement("button");
-      doneButton.classList.add("done-button");
+      doneButton.setAttribute("data-testid", "done-button");
 
       doneButton.addEventListener("click", function () {
         doneBook(bookObject.id);
@@ -131,6 +131,17 @@ document.addEventListener("DOMContentLoaded", function () {
       saveData();
     }
 
+    // function undo book dari list selesai
+    function undoBook(idBook) {
+      const bookTarget = findBook(idBook);
+
+      if (bookTarget == null) return;
+
+      bookTarget.isCompleted = false;
+      document.dispatchEvent(new Event(RENDER_EVENT));
+      saveData();
+    }
+
     // implementasi findBookIndex()
     function findBookIndex(idBook) {
       for (const index in shelf) {
@@ -146,6 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // function simpan data ke local storage - WAJIB 1#
   document.addEventListener(RENDER_EVENT, function () {
+    console.log(shelf);
     const unreadBook = document.getElementById("incompleteBookList");
     unreadBook.innerHTML = "";
 
