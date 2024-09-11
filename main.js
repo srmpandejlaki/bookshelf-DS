@@ -62,11 +62,14 @@ function makeBook(bookObject) {
 
   const textContainer = document.createElement("div");
   textContainer.append(textTitle, textAuthor, textYear);
+  textContainer.classList.add("textContainer");
 
   const buttonContainer = document.createElement("div");
+  buttonContainer.classList.add("buttonContainer");
 
   const container = document.createElement("div");
   container.append(textContainer, buttonContainer);
+  container.classList.add("container");
   container.setAttribute("data-bookid", `${bookObject.id}`);
   container.setAttribute("data-testid", "bookItem");
 
