@@ -18,7 +18,7 @@ function addBook() {
   const judul = document.getElementById("bookFormTitle").value;
   const penulis = document.getElementById("bookFormAuthor").value;
   const tahun = Number(document.getElementById("bookFormYear").value);
-  const isCompleted = document.getElementById("bookFormIsComplete").checked;
+  const isComplete = document.getElementById("bookFormIsComplete").checked;
 
   const generateId = generateID();
   const bookObject = generateBookObject(
@@ -26,7 +26,7 @@ function addBook() {
     judul,
     penulis,
     tahun,
-    isCompleted
+    isComplete
   );
   shelf.push(bookObject);
 
@@ -42,8 +42,8 @@ function generateID() {
 }
 
 // function untuk membuat objek buku
-function generateBookObject(id, title, author, year, isCompleted) {
-  return { id, title, author, year, isCompleted };
+function generateBookObject(id, title, author, year, isComplete) {
+  return { id, title, author, year, isComplete };
 }
 
 //function membuat book-list
@@ -92,7 +92,7 @@ function makeBook(bookObject) {
   });
 
   // pindah rak 'belum selesai' <-> 'sudah selesai' - KRITERIA WAJIB #4
-  if (bookObject.isCompleted) {
+  if (bookObject.isComplete) {
     // undo button
     const undoButton = document.createElement("button");
     undoButton.setAttribute("data-testid", "bookItemUndoButton");
@@ -119,7 +119,7 @@ function makeBook(bookObject) {
 
       if (bookTarget == null) return;
 
-      bookTarget.isCompleted = true;
+      bookTarget.isComplete = true;
       document.dispatchEvent(new Event(RENDER_EVENT));
       saveData();
     }
@@ -168,11 +168,11 @@ function editBook(idBook) {
   const title = document.getElementById("bookFormTitle");
   const author = document.getElementById("bookFormAuthor");
   const year = document.getElementById("bookFormYear");
-  const isCompleted = document.getElementById("bookFormIsComplete");
+  const isComplete = document.getElementById("bookFormIsComplete");
   title.value = shelf[bookTarget].title;
   author.value = shelf[bookTarget].author;
   year.value = shelf[bookTarget].year;
-  isCompleted.checked = shelf[bookTarget].isCompleted;
+  isComplete.checked = shelf[bookTarget].isComplete;
 
   shelf.splice(bookTarget, 1);
   document.dispatchEvent(new Event(RENDER_EVENT));
@@ -215,7 +215,7 @@ function search(shelfFilter) {
 
   for (const bookItem of shelfFilter) {
     const bookElement = makeBook(bookItem);
-    if (!bookItem.isCompleted) {
+    if (!bookItem.isComplete) {
       unreadBook.append(bookElement);
     } else {
       readBook.append(bookElement);
@@ -234,7 +234,7 @@ document.addEventListener(RENDER_EVENT, function () {
 
   for (const bookItem of shelf) {
     const bookElement = makeBook(bookItem);
-    if (!bookItem.isCompleted) {
+    if (!bookItem.isComplete) {
       unreadBook.append(bookElement);
     } else {
       readBook.append(bookElement);
