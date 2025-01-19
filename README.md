@@ -1,27 +1,29 @@
-## Course Belajar Membuat Front-End Web untuk Pemula - Dicoding Indonesia <br>Bookshelf App Starter Project
+## Course Belajar Membuat Front-End Web untuk Pemula - Dicoding Indonesia <br>Submission: Membangun Bookshelf App
 
 Ini adalah starter project untuk siswa yang sedang mengerjakan tugas akhir kelas Belajar Membuat Front-End Web untuk Pemula.
 
 ### Ketentuan Pengerjaan Tugas
-
 Untuk mempermudah penilaian submission yang dikirim, Anda perlu memahami ketentuan-ketentuan berikut dalam mengerjakan tugas ini.
+<ul>
+  <li>Anda dilarang mengedit atau menghapus atribut `data-testid` pada elemen-elemen HTML.</li>
+  <li>Ini masih berkaitan dengan poin sebelumnya. Jika Anda memiliki kebutuhan seperti styling elemen dan perlu menambahkan atribut seperti class, itu tidak dilarang selama atribut `data-testid` beserta nilainya tidak diubah atau dihapus.</li>
+  <li>Dalam menampilkan data-data buku, Anda wajib memberikan beberapa atribut pada setiap elemennya.</li>
+  <ul>
+    <li>`data-bookid`: menampung nilai ID masing-masing buku.</li>
+    <li>`data-testid`: penanda jenis data buku yang ditampilkan. Berikut daftarnya.</li>
+    <ul>
+      <li>`bookItem`: elemen kontainer yang menampung data-data buku.</li>
+      <li>`bookItemTitle`: judul buku</li>
+      <li>`bookItemAuthor`: penulis buku</li>
+      <li>`bookItemYear`: tahun rilis buku</li>
+      <li>`bookItemIsCompleteButton`: tombol untuk mengubah kondisi buku dari “Belum selesai dibaca” menjadi “Selesai dibaca” atau sebaliknya.</li>
+      <li>`bookItemDeleteButton`: tombol untuk menghapus buku.</li>
+      <li>`bookItemEditButton`: tombol untuk mengubah data buku.</li>
+    </ul>
+  </ul>
+</ul>
 
-- Anda dilarang mengedit atau menghapus atribut `data-testid` pada elemen-elemen HTML.
-- Ini masih berkaitan dengan poin sebelumnya. Jika Anda memiliki kebutuhan seperti styling elemen dan perlu menambahkan atribut seperti class, itu tidak dilarang selama atribut `data-testid` beserta nilainya tidak diubah atau dihapus.
-- Dalam menampilkan data-data buku, Anda wajib memberikan beberapa atribut pada setiap elemennya.
-
-  - `data-bookid`: menampung nilai ID masing-masing buku.
-  - `data-testid`: penanda jenis data buku yang ditampilkan. Berikut daftarnya.
-    - `bookItem`: elemen kontainer yang menampung data-data buku.
-    - `bookItemTitle`: judul buku
-    - `bookItemAuthor`: penulis buku
-    - `bookItemYear`: tahun rilis buku
-    - `bookItemIsCompleteButton`: tombol untuk mengubah kondisi buku dari “Belum selesai dibaca” menjadi “Selesai dibaca” atau sebaliknya.
-    - `bookItemDeleteButton`: tombol untuk menghapus buku.
-    - `bookItemEditButton`: tombol untuk mengubah data buku.
-
-  Agar pengerjaan tugas lebih mudah, Anda dapat mengikuti templat buku berikut.
-
+Agar pengerjaan tugas lebih mudah, Anda dapat mengikuti templat buku berikut.
 ```html
 <div data-bookid="{{ ID_buku }}" data-testid="bookItem">
   <h3 data-testid="bookItemTitle">{{ judul_buku }}</h3>
@@ -34,5 +36,63 @@ Untuk mempermudah penilaian submission yang dikirim, Anda perlu memahami ketentu
   </div>
 </div>
 ```
+
+Buatlah aplikasi web yang dapat memasukan data buku ke dalam rak, memindahkan data buku antar rak, dan menghapus data buku dari rak.
+
+Untuk lebih jelasnya, ada lima kriteria wajib yang harus Anda penuhi.<br>
+
+### Kriteria Wajib 1: Gunakan localStorage sebagai Penyimpanan
+<ul>
+  <li>Data buku yang ditampilkan pada rak-rak harus dapat bertahan walaupun halaman web ditutup. Dengan begitu, Anda harus menyimpan data buku pada localStorage.</li>
+  <li>Setiap buku harus berupa objek JavaScript yang membawa beberapa data berikut. Pastikan nama properti beserta tipe data value-nya juga sesuai.</li>
+</ul>
+
+Format objek beserta tipe data nilainya.
+<pre>
+  {
+    id: string | number,
+    title: string,
+    author: string,
+    year: number,
+    isComplete: boolean,
+  }
+</pre>
+Berikut contoh implementasi data buku riilnya.
+<pre>
+  {
+    id: 3657848524,
+    title: 'Harry Potter and the Philosopher\'s Stone',
+    author: 'J.K Rowling',
+    year: 1997,
+    isComplete: false,
+  }
+</pre>
+
+### Kriteria Wajib 2: Mampu Menambahkan Buku
+<ul>
+  <li>Aplikasi harus mampu menyimpan buku baru menggunakan formulir yang telah disediakan dalam starter project.</li>
+  <li>ID buku harus dihasilkan secara otomatis dan unik. Tipsnya, Anda dapat memanfaatkan timestamp sebagai nilainya. Nilai timestamp dapat diperoleh dengan kode new Date().getTime() atau Number(new Date()).</li>
+  <li>Formulir setidaknya bisa menghasilkan empat data berikut.</li>
+  <ul>
+    <li>title: judul buku.</li>
+    <li>author: penulis buku.</li>
+    <li>year: tahun rilis buku bertipe number.</li>
+    <li>isComplete: kondisi apakah sudah selesai dibaca atau belum.</li>
+  </ul>
+</ul>
+
+### Kriteria Wajib 3: Memiliki Dua Rak Buku
+<ul>
+  <li>Aplikasi wajib memiliki 2 Rak buku, yakni “Belum selesai dibaca” dan “Selesai dibaca”.</li>
+  <li>Rak "Belum selesai dibaca" hanya menyimpan buku-buku dengan isComplete bernilai false.</li>
+  <li>Rak "Selesai dibaca" hanya menyimpan buku-buku dengan isComplete bernilai true.</li>
+</ul>
+
+### Kriteria Wajib 4: Dapat Memindahkan Buku Antar Rak
+Buku-buku dalam rak harus dapat dipindahkan ke rak lainnya, baik "Belum selesai dibaca" maupun "Selesai dibaca". Pastikan perubahan ini juga tersimpan dalam localStorage.
+
+### Kriteria Wajib 5: Dapat Menghapus Data Buku
+Buku yang ditampilkan pada rak, baik itu "Belum selesai dibaca" maupun "Selesai dibaca" harus dapat dihapus. Selain menghilang dari halaman, data buku dalam localStorage juga harus terhapus.
+
 
 Selamat mengerjakan dan sukses selalu!
